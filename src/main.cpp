@@ -25,14 +25,12 @@
 #include <producer.h>
 #include <consumer.h>
 
-int
-MAIN(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    (void) argc;
-    (void) argv;
-
-    producer p{};
-    consumer c{&p};
-
+    int a = 0;
+    while( a < 50)
+    {
+        a++;
+    }
     return 0;
 }
