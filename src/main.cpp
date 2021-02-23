@@ -22,17 +22,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <producer.h>
-#include <consumer.h>
 
-int
-MAIN(int argc, char *argv[])
+int MAIN(int argc, char *argv[])
 {
-    (void) argc;
-    (void) argv;
-
-    producer p{};
-    consumer c{&p};
-
+    int a = 0;
+    while( a < 50) {
+        a++
+    }
     return 0;
 }

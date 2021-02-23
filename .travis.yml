@@ -69,27 +69,6 @@ matrix:
   include:
 
   #
-  # Doxygen
-  #
-  - os: linux
-    env:
-      - TEST="Doxygen"
-    addons:
-      apt:
-        packages:
-          - doxygen
-    script:
-      - cd ..
-      - doxygen .doxygen.txt
-      - |
-        if [[ -s doxygen_warnings.txt ]]; then
-          echo "You must fix doxygen before submitting a pull request"
-          echo ""
-          cat doxygen_warnings.txt
-          exit -1
-        fi
-
-  #
   # Git Check
   #
   - os: linux
@@ -107,27 +86,27 @@ matrix:
   #
   # Astyle Format
   #
-  - os: linux
-    env:
-      - TEST="Astyle Format"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DENABLE_ASTYLE=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make format
-      - |
-        if [[ -n $(git diff) ]]; then
-          echo "You must run make format before submitting a pull request"
-          echo ""
-          git diff
-          exit -1
-        fi
+  #- os: linux
+  # env:
+  #   - TEST="Astyle Format"
+  # addons:
+  #   apt:
+  #     sources:
+  #       - ubuntu-toolchain-r-test
+  #     packages:
+  #       - gcc-6
+  #       - g++-6
+  # script:
+  #   - cmake -DENABLE_ASTYLE=ON -DCMAKE_CXX_COMPILER="g++-6" ..
+  #   - make
+  #   - make format
+  #   - |
+  #     if [[ -n $(git diff) ]]; then
+  #       echo "You must run make format before submitting a pull request"
+  #       echo ""
+  #       git diff
+  #       exit -1
+  #     fi
 
   #
   # Clang Tidy
@@ -150,7 +129,7 @@ matrix:
       - make
       - make tidy > output.txt
       - |
-        if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
+        if [[ -n $(grep "error: " output.txt) ]]; then
             echo "You must pass the clang tidy checks before submitting a pull request"
             echo ""
             grep --color -E '^|warning: |error: ' output.txt
@@ -192,135 +171,14 @@ matrix:
           - g++-6
       coverity_scan:
         project:
-          name: "ainfosec/ci_helloworld"
+          name: "ninolomata/travis_ci_setup"
           description: "A simple example of how to setup a complete CI environment for C and C++"
-        notification_email: rianquinn@gmail.com
+        notification_email: bruno.vilaca.sa@gmail.com
         build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-6 .."
         build_command: "make"
         branch_pattern: master
     script:
       - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
-  #
-  # Codecov
-  #
-  - os: linux
-    env:
-      - TEST="Codecov"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-      - cd ..
-      - bash <(curl -s https://codecov.io/bash)
-
-  #
-  # Coveralls
-  #
-  - os: linux
-    env:
-      - TEST="Coveralls"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - pip install --upgrade --user git+git://github.com/eddyxu/cpp-coveralls.git
-      - cmake -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-      - cd ..
-      - |
-        coveralls --build-root build --gcov-options '\-lp' \
-          -e build/external \
-          -e build/include \
-          -e build/CMakeFiles/3.8.0 \
-          -e build/CMakeFiles/feature_tests.c \
-          -e build/CMakeFiles/feature_tests.cxx
-
-  #
-  # Google Address Sanitizer
-  #
-  - os: linux
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    env:
-      - TEST="Google Address Sanitizer"
-    script:
-      - cmake -DENABLE_ASAN=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-
-  #
-  # Google Undefined Sanitizer
-  #
-  - os: linux
-    env:
-      - TEST="Google Undefined Sanitizer"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DENABLE_USAN=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-
-  #
-  # Google Thread Sanitizer
-  #
-  - os: linux
-    env:
-      - TEST="Google Thread Sanitizer"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DENABLE_TSAN=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-
-  #
-  # Valgrind
-  #
-  - os: linux
-    env:
-      - TEST="Valgrind"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-          - valgrind
-    script:
-      - cmake -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - ctest -T memcheck
-
   #
   # G++ 5
   #
@@ -336,44 +194,6 @@ matrix:
           - g++-5
     script:
       - cmake -DCMAKE_CXX_COMPILER="g++-5" ..
-      - make
-      - make test
-
-  #
-  # G++ 6
-  #
-  - os: linux
-    env:
-      - TEST="G++ 6"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-
-  #
-  # Clang 3.8
-  #
-  - os: linux
-    env:
-      - TEST="Clang 3.8"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-3.8
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DCMAKE_C_COMPILER=clang-3.8 -DCMAKE_CXX_COMPILER=clang++-3.8 ..
       - make
       - make test
 
@@ -394,85 +214,5 @@ matrix:
           - g++-6
     script:
       - cmake -DCMAKE_C_COMPILER=clang-3.9 -DCMAKE_CXX_COMPILER=clang++-3.9 ..
-      - make
-      - make test
-
-  #
-  # Clang 4.0
-  #
-  - os: linux
-    env:
-      - TEST="Clang 4.0"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DCMAKE_C_COMPILER=clang-4.0 -DCMAKE_CXX_COMPILER=clang++-4.0 ..
-      - make
-      - make test
-
-  #
-  # XCode 7.3
-  #
-  - os: osx
-    env:
-      - TEST="XCode 7.3"
-    osx_image: xcode7.3
-    script:
-      - cmake ..
-      - make
-      - make test
-
-  #
-  # XCode 8
-  #
-  - os: osx
-    env:
-      - TEST="XCode 8"
-    osx_image: xcode8
-    script:
-      - cmake ..
-      - make
-      - make test
-
-  #
-  # XCode 8.1
-  #
-  - os: osx
-    env:
-      - TEST="XCode 8.1"
-    osx_image: xcode8.1
-    script:
-      - cmake ..
-      - make
-      - make test
-
-  #
-  # XCode 8.2
-  #
-  - os: osx
-    env:
-      - TEST="XCode 8.2"
-    osx_image: xcode8.2
-    script:
-      - cmake ..
-      - make
-      - make test
-
-  #
-  # XCode 8.3
-  #
-  - os: osx
-    env:
-      - TEST="XCode 8.3"
-    osx_image: xcode8.3
-    script:
-      - cmake ..
       - make
       - make test

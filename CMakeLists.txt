@@ -323,5 +323,3 @@ macro(do_test str)
 endmacro(do_test)
 
 do_test(main)
-do_test(producer)
-do_test(consumer)
