@@ -29,5 +29,5 @@ int MAIN(int argc, char *argv[])
     while( a < 50) {
         a++
     }
-    return 0
+    return 
 }
