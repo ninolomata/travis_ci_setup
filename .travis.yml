@@ -146,8 +146,8 @@ matrix:
     addons:
       apt:
       sources:
+        - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty
-        - key_url: 'http://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
         - clang-format
 
