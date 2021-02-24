@@ -225,14 +225,11 @@ matrix:
       - TEST="Clang 3.9"
     addons:
       apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-3.9
-        packages:
-          - clang-3.9
-          - gcc-6
-          - g++-6
-    script:
-      - cmake -DCMAKE_C_COMPILER=clang-3.9 -DCMAKE_CXX_COMPILER=clang++-3.9 ..
-      - make
-      - make test
+      sources:
+        - llvm-toolchain-trusty-5.0
+        - key_url: 'http://apt.llvm.org/llvm-snapshot.gpg.key'
+      packages:
+        - clang-format-5.0
+
+      script:
+        - ./run-clang-format.py -r src
