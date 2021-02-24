@@ -152,7 +152,7 @@ matrix:
         - clang-format-5.0
 
       script:
-        - ./run-clang-format.py -r src
+        - clang-format-5.0 src/main.cpp
 
   #
   # CppCheck
