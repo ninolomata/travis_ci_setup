@@ -122,14 +122,12 @@ matrix:
         packages:
           - clang-4.0
           - clang-tidy-4.0
-          - clang-format
           - gcc-6
           - g++-6
     script:
       - cmake -DENABLE_CLANG_TIDY=ON -DCMAKE_CXX_COMPILER="g++-6" ..
       - make
       - make tidy > output.txt
-      - clang-format --dry-run -Werror src/main.cpp
       - |
         if [[ -n $(grep "error: " output.txt) ]]; then
             echo "You must pass the clang tidy checks before submitting a pull request"
@@ -148,13 +146,13 @@ matrix:
     addons:
       apt:
       sources:
-        - llvm-toolchain-trusty-5.0
+        - llvm-toolchain-trusty
         - key_url: 'http://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
-        - clang-format-5.0
+        - clang-format
 
       script:
-        - clang-format-5.0 src/main.cpp
+      - clang-format --dry-run -Werror src/main.cpp
 
   #
   # CppCheck
