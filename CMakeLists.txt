@@ -262,10 +262,10 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CLANG_FORMAT)
 
-    find_program(CLANG_FORMAT_BIN clang-format)
+    find_program(CLANG_FORMAT_BIN clang-format-4.0)
 
     if(CLANG_FORMAT_BIN STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
-        message(FATAL_ERROR "unable to locate clang-format")
+        message(FATAL_ERROR "unable to locate clang-format-4.0")
     endif()
 
     list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
