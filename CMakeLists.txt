@@ -262,10 +262,10 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CLANG_FORMAT)
 
-    find_program(CLANG_FORMAT_BIN clang-format-4.0)
+    find_program(CLANG_FORMAT_BIN clang-format)
 
     if(CLANG_FORMAT_BIN STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
-        message(FATAL_ERROR "unable to locate clang-format-4.0")
+        message(FATAL_ERROR "unable to locate clang-format")
     endif()
 
     list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
@@ -274,7 +274,7 @@ if(ENABLE_CLANG_FORMAT)
 
     add_custom_target(
         clang_format
-        COMMAND ${CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS}
+        COMMAND ${CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS} ./src/main.cpp
         COMMENT "running clang format"
     )
 
