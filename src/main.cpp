@@ -26,8 +26,8 @@
 int MAIN(int argc, char *argv[])
 {
     int a = 0;
-    while( a < 50) {
-        a ++;
+    while( a < 50        )        { 
+        a ++    ;
     }
     return 1;
 }
