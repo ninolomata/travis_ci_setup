@@ -269,9 +269,8 @@ if(ENABLE_CLANG_FORMAT)
     endif()
 
     list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
-        -clang-format-binary ${CLANG_FORMAT_BIN}
-        -header-filter=.*
-        -Werror
+        --header-filter=.*
+        --Werror
     )
 
     add_custom_target(
