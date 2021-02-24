@@ -27,7 +27,7 @@ int MAIN(int argc, char *argv[])
 {
     int a = 0;
     while( a < 50) {
-        a++fnn
-    
-    return 
+        a ++
+    }
+    return 1;
 }
