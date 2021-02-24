@@ -257,7 +257,35 @@ if(ENABLE_COVERAGE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
+# ------------------------------------------------------------------------------
+# CLANG FORMAT
+# ------------------------------------------------------------------------------
+if(ENABLE_CLANG_FORMAT)
 
+    find_program(CLANG_FORMAT_BIN clang-format-5.0)
+    find_program(RUN_CLANG_FORMAT_BIN run-clang-format-5.0.py)
+
+    if(CLANG_FORMAT_BIN STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
+        message(FATAL_ERROR "unable to locate clang-format-5.0")
+    endif()
+
+    if(RUN_CLANG_FORMAT_BIN STREQUAL "RUN_CLANG_FORMAT_BIN-NOTFOUND")
+        message(FATAL_ERROR "unable to locate run-clang-format-5.0.py")
+    endif()
+
+    list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
+        -clang-format-binary ${CLANG_FORMAT_BIN}
+        -header-filter=.*
+        -Werror
+    )
+
+    add_custom_target(
+        clang_format
+        COMMAND ${RUN_CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS}
+        COMMENT "running clang format"
+    )
+
+endif()
 # ------------------------------------------------------------------------------
 # Google Sanitizers
 # ------------------------------------------------------------------------------
