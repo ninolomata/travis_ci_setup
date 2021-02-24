@@ -272,9 +272,9 @@ if(ENABLE_CLANG_FORMAT)
     )
 
     add_custom_target(
-        cl
-        COMMAND ${CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS} ./src
-        COMMENT "running clang format"
+        cla
+        COMMAND ${CMAKE_BINARY_DIR}/bin/cppcheck ${CPPCHECK_ARGS}
+        COMMENT "running cppcheck"
     )
 
 endif()
