@@ -269,7 +269,6 @@ if(ENABLE_CLANG_FORMAT)
     endif()
 
     list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
-        --header-filter=.*
         --Werror
     )
 
