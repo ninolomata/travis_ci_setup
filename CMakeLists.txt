@@ -262,15 +262,15 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CLANG_FORMAT)
 
-    find_program(CLANG_FORMAT_BIN clang-format-5.0)
-    find_program(RUN_CLANG_FORMAT_BIN run-clang-format-5.0.py)
+    find_program(CLANG_FORMAT_BIN clang-format-4.0)
+    find_program(RUN_CLANG_FORMAT_BIN run-clang-format-4.0.py)
 
     if(CLANG_FORMAT_BIN STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
-        message(FATAL_ERROR "unable to locate clang-format-5.0")
+        message(FATAL_ERROR "unable to locate clang-format-4.0")
     endif()
 
     if(RUN_CLANG_FORMAT_BIN STREQUAL "RUN_CLANG_FORMAT_BIN-NOTFOUND")
-        message(FATAL_ERROR "unable to locate run-clang-format-5.0.py")
+        message(FATAL_ERROR "unable to locate run-clang-format-4.0.py")
     endif()
 
     list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
