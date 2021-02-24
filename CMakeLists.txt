@@ -272,7 +272,7 @@ if(ENABLE_CLANG_FORMAT)
     )
 
     add_custom_target(
-        clang_format
+        cl
         COMMAND ${CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS} ./src
         COMMENT "running clang format"
     )
