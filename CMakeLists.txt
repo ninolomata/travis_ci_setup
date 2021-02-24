@@ -269,12 +269,12 @@ if(ENABLE_CLANG_FORMAT)
     endif()
 
     list(APPEND RUN_CLANG_FORMAT_BIN_ARGS
-        --Werror
     )
 
     add_custom_target(
         clang_format
-        COMMAND ${CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS} ./src/main.cpp
+        COMMAND ${CLANG_FORMAT_BIN} -help
+        COMMAND ${CLANG_FORMAT_BIN} ${RUN_CLANG_FORMAT_BIN_ARGS}
         COMMENT "running clang format"
     )
 
